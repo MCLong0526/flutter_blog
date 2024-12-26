@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CommentController;
+use App\Http\Controllers\LikeController;
 use App\Http\Controllers\PostController;
 use Illuminate\Support\Facades\Route;
 
@@ -20,6 +22,7 @@ Route::post('/login', [AuthController::class, 'login']);
 
 Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/user', [AuthController::class, 'user']);
+    Route::put('/user', [AuthController::class, 'update']);
     Route::post('/logout', [AuthController::class, 'logout']);
 
     //Post
@@ -30,11 +33,11 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::delete('/posts/{id}', [PostController::class, 'destroy']);
 
     //Comment
-    Route::get('/posts/{id}/comments', [PostController::class, 'index']);
-    Route::post('/posts/{id}/comments', [PostController::class, 'store']);
-    Route::put('/comments/{id}', [PostController::class, 'update']);
-    Route::delete('/comments/{id}', [PostController::class, 'destroy']);
+    Route::get('/posts/{id}/comments', [CommentController::class, 'index']);
+    Route::post('/posts/{id}/comments', [CommentController::class, 'store']);
+    Route::put('/comments/{id}', [CommentController::class, 'update']);
+    Route::delete('/comments/{id}', [CommentController::class, 'destroy']);
 
     //Like
-    Route::post('/posts/{id}/likes', [PostController::class, 'likeOrUnlike']);
+    Route::post('/posts/{id}/likes', [LikeController::class, 'likeOrUnlike']);
 });
